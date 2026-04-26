@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>TechPath AI</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+  <div class="chat-header">
+     TechPath AI
+    <button onclick="abrirModal()" class="info-btn">?</button>
+  </div>
+
+  <div id="chat" class="chat-body"></div>
+
+  <div class="chat-input">
+    <input id="input" placeholder="Descreva seu perfil... Ex: não gosto de matemática, quero algo prático">
+    <button onclick="enviar()">Enviar</button>
+  </div>
+
+</div>
+
+<div id="modal" class="modal d-none">
+  <div class="modal-content">
+    <h3>Como funciona</h3>
+
+    <p>
+      Este sistema utiliza inteligência artificial para analisar seu perfil e sugerir
+      o melhor caminho na área de tecnologia.
+    </p>
+
+    <ul>
+      <li>📊 Você informa suas preferências</li>
+      <li>🧠 O sistema analisa seu perfil</li>
+      <li>💡 A IA gera uma recomendação personalizada</li>
+    </ul>
+
+    <button onclick="fecharModal()">Fechar</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

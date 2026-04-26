@@ -1,0 +1,42 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+venv/
+.env/
+
+# Distribuição / build
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Variáveis sensíveis
+# =========================
+.env
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Sistema operacional
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDEs / editores
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Frontend (opcional)
+# =========================
+node_modules/
