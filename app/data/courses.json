@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ads",
+    "nome": "Análise e Desenvolvimento de Sistemas (ADS)",
+    "descricao": "Focado em projetar, desenvolver e testar softwares. Um curso prático e rápido.",
+    "salario_medio": "R$ 4.500 - R$ 12.000",
+    "skills": ["Lógica", "JavaScript", "SQL", "Engenharia de Software"],
+    "dificuldade": "Média",
+    "duracao": "2 a 2.5 anos",
+    "tags": ["pratico", "rapido", "software"]
+  },
+  {
+    "id": "cc",
+    "nome": "Ciência da Computação",
+    "descricao": "Focado nos fundamentos teóricos da computação, algoritmos complexos e hardware.",
+    "salario_medio": "R$ 6.000 - R$ 18.000",
+    "skills": ["Matemática", "C/C++", "Algoritmos", "Inteligência Artificial"],
+    "dificuldade": "Alta",
+    "duracao": "4 a 5 anos",
+    "tags": ["teorico", "matematica", "longo"]
+  },
+  {
+    "id": "si",
+    "nome": "Sistemas de Informação",
+    "descricao": "Une tecnologia com gestão de negócios e processos organizacionais.",
+    "salario_medio": "R$ 5.000 - R$ 14.000",
+    "skills": ["Gestão", "Java/C#", "Banco de Dados", "Processos"],
+    "dificuldade": "Média",
+    "duracao": "4 anos",
+    "tags": ["gestao", "negocios", "medio"]
+  },
+  {
+    "id": "eng_comp",
+    "nome": "Engenharia de Computação",
+    "descricao": "Combina engenharia eletrônica com ciência da computação para criar hardware e software.",
+    "salario_medio": "R$ 7.000 - R$ 20.000",
+    "skills": ["Eletrônica", "Sistemas Embarcados", "Física", "C"],
+    "dificuldade": "Muito Alta",
+    "duracao": "5 anos",
+    "tags": ["hardware", "fisica", "complexo"]
+  },
+  {
+    "id": "redes",
+    "nome": "Redes de Computadores",
+    "descricao": "Focado em infraestrutura, conectividade e segurança de redes.",
+    "salario_medio": "R$ 4.000 - R$ 10.000",
+    "skills": ["Infraestrutura", "Linux", "Segurança", "Cisco"],
+    "dificuldade": "Média",
+    "duracao": "2 a 3 anos",
+    "tags": ["infra", "pratico", "seguranca"]
+  }
+]

@@ -2,8 +2,8 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>TechPath AI</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechPath AI | Seu Guia de Carreira</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,35 +12,34 @@
 <div class="chat-container">
 
   <div class="chat-header">
-     TechPath AI
+     <span>TechPath AI</span>
     <button onclick="abrirModal()" class="info-btn">?</button>
   </div>
 
   <div id="chat" class="chat-body"></div>
 
   <div class="chat-input">
-    <input id="input" placeholder="Descreva seu perfil... Ex: não gosto de matemática, quero algo prático">
-    <button onclick="enviar()">Enviar</button>
+    <input id="input" placeholder="Ex: Gosto de criar coisas e lógica..." autocomplete="off">
+    <button id="send-btn" onclick="enviar()">Enviar</button>
   </div>
 
 </div>
 
 <div id="modal" class="modal d-none">
   <div class="modal-content">
-    <h3>Como funciona</h3>
+    <h3>Descubra seu Caminho</h3>
 
     <p>
-      Este sistema utiliza inteligência artificial para analisar seu perfil e sugerir
-      o melhor caminho na área de tecnologia.
+      Nossa IA analisa suas preferências naturais para recomendar a melhor graduação ou curso técnico.
     </p>
 
     <ul>
-      <li>📊 Você informa suas preferências</li>
-      <li>🧠 O sistema analisa seu perfil</li>
-      <li>💡 A IA gera uma recomendação personalizada</li>
+      <li>✨ <b>Natural:</b> Escreva como se estivesse falando com um amigo.</li>
+      <li>🧠 <b>Inteligente:</b> Analisamos lógica, prática e disponibilidade.</li>
+      <li>🚀 <b>Rápido:</b> Receba sua resposta em segundos.</li>
     </ul>
 
-    <button onclick="fecharModal()">Fechar</button>
+    <button onclick="fecharModal()" style="width: 100%;">Começar Agora</button>
   </div>
 </div>
 

@@ -1,170 +1,106 @@
 # TechPath AI
 
-Um sistema inteligente que utiliza IA para recomendar cursos na área de tecnologia com base no perfil do usuário.
+O **TechPath AI** é um mentor de carreira inteligente que utiliza Inteligência Artificial para analisar o perfil de usuários e recomendar o melhor caminho na área de tecnologia, fornecendo detalhes de mercado e um plano de estudos personalizado.
 
 ---
 
-## Sobre o Projeto
+## Novas Funcionalidades (V2.0)
 
-O **TechPath AI** é uma aplicação fullstack simples que simula um orientador de carreira em tecnologia.
-
-O usuário descreve seu perfil (ex: preferências, afinidade com matemática, objetivo de carreira), e o sistema:
-
-1. Analisa essas informações
-2. Aplica uma lógica de recomendação
-3. Utiliza IA para gerar uma explicação personalizada
-4. Retorna uma sugestão de curso ideal
+- **Análise de Linguagem Natural:** O sistema agora interpreta descrições complexas (ex: "Gosto de lógica mas prefere algo rápido") usando LLMs (Llama 3 via Groq).
+- **Cards de Carreira Detalhados:** Recomendações completas com salário médio, habilidades (skills), duração e nível de dificuldade.
+- **Roadmap de 6 Meses:** Geração automática de um plano de estudos mensal personalizado para o curso recomendado.
+- **UI/UX Premium:** Interface moderna com modo escuro, efeitos de *glassmorphism* e animações fluidas via GSAP.
+- **📚 Base de Conhecimento:** Sistema de recomendação baseado em uma base de dados estruturada (`courses.json`).
 
 ---
 
 ## 🧠 Como Funciona
 
-O sistema é dividido em duas partes principais:
-
-### 🔹 Backend (Python + FastAPI)
-
-Responsável por:
-- Receber os dados do usuário
-- Aplicar regras de recomendação
-- Integrar com IA (Groq)
-- Retornar resposta estruturada
-
-Fluxo:
-
----
-
-### 🔹 Frontend (HTML + CSS + JS)
-
-Responsável por:
-- Interface estilo chat
-- Captura de input do usuário
-- Exibição da resposta
-- Animações e experiência do usuário
+1. **Entrada:** O usuário descreve seu perfil no chat de forma natural.
+2. **Extração:** O Backend utiliza a Groq API para converter o texto em dados estruturados (Afinidade matemática, Prática e Tempo).
+3. **Match:** O sistema busca na base de dados o curso que melhor se adapta às pontuações do usuário.
+4. **Geração:** A IA gera uma explicação motivadora e um roadmap de estudos de 6 meses.
+5. **Exibição:** O Frontend renderiza o card do curso e o plano de estudos com animações.
 
 ---
 
 ## ⚙️ Tecnologias Utilizadas
 
 ### Backend
-- Python
-- FastAPI
-- Uvicorn
-- Requests
-- python-dotenv
+- **Python / FastAPI:** Servidor de alta performance.
+- **Groq Cloud (Llama 3):** IA de altíssima velocidade para processamento de texto.
+- **Pydantic:** Validação de dados estruturados.
 
 ### Frontend
-- HTML5
-- CSS3
-- JavaScript
-- GSAP (animações)
+- **HTML5 / CSS3:** Estilização premium com variáveis e dark mode.
+- **JavaScript (Vanilla):** Lógica de chat e integração com API.
+- **GSAP:** Animações de interface.
 
 ---
 
 ## 📁 Estrutura do Projeto
-````
-backend/
+```
 ├── app/
-│ ├── main.py
-│ ├── routes/
-│ ├── services/
-│ ├── models/
-│ └── core/
+│   ├── data/
+│   │   └── courses.json      # Base de dados de cursos
+│   ├── models/
+│   │   └── user_profile.py   # Modelos Pydantic
+│   ├── routes/
+│   │   └── recommend.py      # Endpoints da API
+│   ├── services/
+│   │   ├── groq_service.py   # Integração com IA
+│   │   └── recommendation_service.py # Lógica de match
+│   ├── main.py               # Arquivo principal
+│   └── core/
+│       └── config.py         # Configurações de env
 ├── front/
-│ ├── index.html
-│ ├── style.css
-│ └── script.js
-├── .env
-└── requirements.txt
-````
+│   ├── index.html            # Interface
+│   ├── style.css             # Estilos Premium
+│   └── script.js             # Lógica do chat
+├── .env                      # Chaves de API
+└── requirements.txt          # Dependências
+```
 
 ---
 
 ## 🔌 API
 
-### Endpoint principal
+### `POST /recomendar_texto`
+Endpoint que recebe a mensagem natural do usuário.
 
-### Exemplo de requisição:
-
+**Exemplo de requisição:**
 ```json
 {
-  "matematica": 3,
-  "pratico": 8,
-  "tempo": "curto"
-}
-```
-### Exemplo de resposta:
-```json
-{
-  "curso_recomendado": "Análise e Desenvolvimento de Sistemas (ADS)",
-  "explicacao": "..."
+  "message": "Não gosto de muita matemática, quero algo bem prático e rápido para o mercado."
 }
 ```
 
-# Lógica de Recomendação
+---
 
-A recomendação é baseada em regras simples:
-
-- **Baixa afinidade com matemática →** ADS  
-- **Alta afinidade com matemática →** Ciência da Computação  
-- **Tempo curto →** cursos tecnólogos  
-- **Caso intermediário →** Sistemas de Informação  
-
-A IA entra para:
-
-- Explicar a escolha  
-- Tornar a resposta mais natural  
-- Melhorar a experiência do usuário  
-
-## 💬 Interface (Chat)
-
-O frontend simula uma conversa:
-
-- Usuário digita seu perfil  
-- Sistema responde como um orientador  
-- Histórico de mensagens é exibido  
-- Interface inspirada em chat moderno  
-
-## Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```env
-GROQ_API_KEY=sua_chave_aqui
-```
 ## ▶️ Como Executar o Projeto
 
-### 1. Clonar o repositório
-```bash
-git clone <https://github.com/lazaaro01/TechPath-AI>
-cd backend
-```
-## Criar ambiente virtual
-```json
-python -m venv venv
-venv\Scripts\activate  # Windows
- ou
-source venv/bin/activate  # Linux/Mac
-```
-## Instalr dependências
+1. **Configurar o Ambiente:**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate # ou venv\Scripts\activate no Windows
+   pip install -r requirements.txt
+   ```
 
-```json
-pip install -r requirements.txt
-```
+2. **Configurar a API Key:**
+   Crie um arquivo `.env` e adicione sua chave:
+   ```env
+   GROQ_API_KEY=gsk_your_key_here
+   ```
 
-## Rodar o backend
-``` json
-python -m uvicorn app.main:app --reload
+3. **Rodar o Backend:**
+   ```bash
+   python -m uvicorn app.main:app --reload
+   ```
 
-A API estará disponível em:
+4. **Rodar o Frontend:**
+   Abra o arquivo `front/index.html` em qualquer navegador moderno.
 
-http://localhost:8000
-Swagger: http://localhost:8000/docs
-```
-## Rodar o frontend
-
-Basta abrir o arquivo:
-
-front/index.html
+---
 
 ## Desenvolvido por 💻
 

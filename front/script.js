@@ -1,92 +1,142 @@
 const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const sendBtn = document.getElementById("send-btn");
 
-function addMessage(text, type) {
+function addMessage(text, type, isHtml = false) {
   const msg = document.createElement("div");
   msg.classList.add("message", type);
-  msg.innerText = text;
+  
+  if (isHtml) {
+    msg.innerHTML = text;
+  } else {
+    msg.innerText = text;
+  }
 
   chat.appendChild(msg);
 
   gsap.from(msg, {
     opacity: 0,
-    y: 10,
-    duration: 0.4
+    y: 20,
+    scale: 0.9,
+    duration: 0.5,
+    ease: "back.out(1.7)"
   });
 
   chat.scrollTop = chat.scrollHeight;
+  return msg;
+}
+
+function showTyping() {
+  const typing = document.createElement("div");
+  typing.classList.add("message", "bot", "typing");
+  typing.innerHTML = `<span></span><span></span><span></span> Analisando perfil e gerando rota...`;
+  chat.appendChild(typing);
+  chat.scrollTop = chat.scrollHeight;
+  return typing;
 }
 
 async function enviar() {
-  const input = document.getElementById("input");
-  const texto = input.value;
+  const texto = input.value.trim();
 
   if (!texto) return;
 
-  addMessage(texto, "user");
   input.value = "";
+  input.disabled = true;
+  sendBtn.disabled = true;
 
-  addMessage("Analisando seu perfil...", "bot");
+  addMessage(texto, "user");
+
+  const typingIndicator = showTyping();
 
   try {
-    const response = await fetch("http://localhost:8000/recomendar", {
+    const response = await fetch("http://localhost:8000/recomendar_texto", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        matematica: extrairNumero(texto, "matematica") || 5,
-        pratico: extrairNumero(texto, "pratico") || 5,
-        tempo: extrairTempo(texto)
-      })
+      body: JSON.stringify({ message: texto })
     });
 
+    if (!response.ok) throw new Error("Falha na API");
+
     const data = await response.json();
+    chat.removeChild(typingIndicator);
 
-    chat.removeChild(chat.lastChild);
+    const curso = data.curso_recomendado;
+    
+    let skillsHtml = curso.skills.map(s => `<span class="skill-tag">${s}</span>`).join("");
+    
+    let roadmapHtml = data.roadmap.map(m => `
+      <div class="roadmap-step">
+        <h5>Mês ${m.numero}: ${m.foco}</h5>
+        <ul>${m.atividades.map(a => `<li>• ${a}</li>`).join("")}</ul>
+      </div>
+    `).join("");
 
-    addMessage(
-      `💡 Curso recomendado: ${data.curso_recomendado}\n\n${data.explicacao}`,
-      "bot"
-    );
+    const botMsg = `
+      <strong>✨ Recomendação Encontrada:</strong>
+      
+      <div class="course-card">
+        <h4>${curso.nome}</h4>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">${curso.descricao}</p>
+        
+        <div class="course-info-grid">
+          <div class="info-item">
+            <label>Salário Médio</label>
+            <span>${curso.salario_medio}</span>
+          </div>
+          <div class="info-item">
+            <label>Duração</label>
+            <span>${curso.duracao}</span>
+          </div>
+          <div class="info-item">
+            <label>Dificuldade</label>
+            <span>${curso.dificuldade}</span>
+          </div>
+        </div>
+
+        <div class="skills-tags">${skillsHtml}</div>
+      </div>
+
+      <p style="margin-top: 10px;">${data.explicacao}</p>
+
+      <div class="roadmap-container">
+        <h4 style="font-size: 0.95rem; margin-bottom: 15px; color: var(--primary-glow);">🚀 Seu Roadmap de 6 Meses</h4>
+        ${roadmapHtml}
+      </div>
+    `;
+
+    addMessage(botMsg, "bot", true);
 
   } catch (err) {
-    addMessage("Erro ao conectar com o servidor.", "bot");
+    console.error(err);
+    if (typingIndicator.parentNode) chat.removeChild(typingIndicator);
+    addMessage("Ops! Tive um problema ao processar sua rota. Tente novamente.", "bot");
+  } finally {
+    input.disabled = false;
+    sendBtn.disabled = false;
+    input.focus();
   }
 }
 
-function extrairNumero(texto, tipo) {
-  if (texto.includes("não gosto de matemática")) return 2;
-  if (texto.includes("gosto de matemática")) return 8;
-  if (texto.includes("muito prático")) return 9;
-  return null;
-}
+input.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") enviar();
+});
 
-function extrairTempo(texto) {
-  if (texto.includes("rápido")) return "curto";
-  if (texto.includes("demorar")) return "longo";
-  return "medio";
-}
 window.onload = () => {
-  addMessage(
-`👋 Olá! Eu sou seu orientador de carreira em tecnologia.
-
-💡 Como funciona:
-- Você descreve seu perfil (ex: "não gosto de matemática, quero algo prático")
-- Eu analiso suas preferências
-- E te recomendo um curso ideal + explicação personalizada
-
-🚀 Pode começar escrevendo como você gosta de aprender!`,
-  "bot"
-  );
+  setTimeout(() => {
+    addMessage("👋 Olá! Vamos encontrar seu caminho na tecnologia e criar um plano de estudos para você?", "bot");
+  }, 500);
 };
+
 function abrirModal() {
-    const btn = document.querySelector(".info-btn");
-
-    btn.style.animation = "none";
-
   document.getElementById("modal").classList.remove("d-none");
+  gsap.from(".modal-content", { scale: 0.8, opacity: 0, duration: 0.3 });
 }
 
 function fecharModal() {
-  document.getElementById("modal").classList.add("d-none");
+  gsap.to(".modal-content", {
+    scale: 0.8, opacity: 0, duration: 0.2,
+    onComplete: () => document.getElementById("modal").classList.add("d-none")
+  });
 }
