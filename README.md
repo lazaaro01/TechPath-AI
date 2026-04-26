@@ -165,3 +165,7 @@ Swagger: http://localhost:8000/docs
 Basta abrir o arquivo:
 
 front/index.html
+
+## Desenvolvido por 💻
+
+Projeto pessoal de **Lázaro Vasconcelos**
