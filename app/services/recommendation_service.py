@@ -1,13 +1,24 @@
-import json
-import os
-
-def carregar_cursos():
-    path = os.path.join(os.path.dirname(__file__), "..", "data", "courses.json")
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+from app.core.database import SessionLocal
+from app.models.course_model import Course
 
 def recomendar_curso(perfil):
-    cursos = carregar_cursos()
+    db = SessionLocal()
+    try:
+        cursos_db = db.query(Course).all()
+        cursos = []
+        for c in cursos_db:
+            cursos.append({
+                "id": c.id,
+                "nome": c.nome,
+                "descricao": c.descricao,
+                "salario_medio": c.salario_medio,
+                "skills": c.skills,
+                "dificuldade": c.dificuldade,
+                "duracao": c.duracao,
+                "tags": c.tags
+            })
+    finally:
+        db.close()
     
     matematica = perfil.matematica
     pratico = perfil.pratico

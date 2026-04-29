@@ -10,7 +10,8 @@ O **TechPath AI** é um mentor de carreira inteligente que utiliza Inteligência
 - **Cards de Carreira Detalhados:** Recomendações completas com salário médio, habilidades (skills), duração e nível de dificuldade.
 - **Roadmap de 6 Meses:** Geração automática de um plano de estudos mensal personalizado para o curso recomendado.
 - **UI/UX Premium:** Interface moderna com modo escuro, efeitos de *glassmorphism* e animações fluidas via GSAP.
-- **📚 Base de Conhecimento:** Sistema de recomendação baseado em uma base de dados estruturada (`courses.json`).
+- **📚 Banco de Dados SQLite:** Sistema de recomendação migrado para SQLite utilizando SQLAlchemy, garantindo persistência estruturada dos dados.
+- **🐳 Dockerização:** Orquestração completa utilizando Docker e Docker Compose, separando serviços de Frontend (Nginx) e Backend (FastAPI).
 
 ---
 
@@ -28,6 +29,7 @@ O **TechPath AI** é um mentor de carreira inteligente que utiliza Inteligência
 
 ### Backend
 - **Python / FastAPI:** Servidor de alta performance.
+- **SQLAlchemy / SQLite:** ORM e banco de dados relacional para persistência de cursos.
 - **Groq Cloud (Llama 3):** IA de altíssima velocidade para processamento de texto.
 - **Pydantic:** Validação de dados estruturados.
 
@@ -41,22 +43,27 @@ O **TechPath AI** é um mentor de carreira inteligente que utiliza Inteligência
 ## 📁 Estrutura do Projeto
 ```
 ├── app/
+│   ├── core/
+│   │   ├── config.py         # Configurações de env
+│   │   └── database.py       # Configuração do SQLite e SQLAlchemy
 │   ├── data/
-│   │   └── courses.json      # Base de dados de cursos
+│   │   └── courses.json      # Dados iniciais para seed do banco
 │   ├── models/
+│   │   ├── course_model.py   # Modelo SQLAlchemy de Cursos
 │   │   └── user_profile.py   # Modelos Pydantic
 │   ├── routes/
 │   │   └── recommend.py      # Endpoints da API
 │   ├── services/
 │   │   ├── groq_service.py   # Integração com IA
 │   │   └── recommendation_service.py # Lógica de match
-│   ├── main.py               # Arquivo principal
-│   └── core/
-│       └── config.py         # Configurações de env
+│   └── main.py               # Arquivo principal
 ├── front/
 │   ├── index.html            # Interface
 │   ├── style.css             # Estilos Premium
 │   └── script.js             # Lógica do chat
+├── Dockerfile                # Configuração Docker Backend
+├── Dockerfile.front          # Configuração Docker Frontend (Nginx)
+├── docker-compose.yml        # Orquestração dos serviços
 ├── .env                      # Chaves de API
 └── requirements.txt          # Dependências
 ```
@@ -78,6 +85,28 @@ Endpoint que recebe a mensagem natural do usuário.
 ---
 
 ## ▶️ Como Executar o Projeto
+
+### Via Docker (Recomendado 🐳)
+
+1. **Configurar a API Key:**
+   Crie um arquivo `.env` na raiz do projeto e adicione sua chave do Groq:
+   ```env
+   GROQ_API_KEY=gsk_your_key_here
+   ```
+
+2. **Subir os Containers:**
+   Abra o terminal na pasta do projeto e rode:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Acessar a Aplicação:**
+   - Frontend: [http://localhost:8080](http://localhost:8080)
+   - API Docs (Backend): [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+### Execução Local (Sem Docker)
 
 1. **Configurar o Ambiente:**
    ```bash
